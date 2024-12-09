@@ -54,6 +54,26 @@ export default function UsersPage() {
     setUsersData(prev => [...prev, newUserData]);
     setNewUser({ id: '', username: '', email: '', password: '', organisation: '', role: 'user', remarks: '' }); // Reset form
   };
+  
+  try {
+    const response = await fetch('api/farmer/farmer-register.ts',{
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(newFarmerData),
+  });
+
+  if (response.ok) {
+    alert('Farmer registered successfully!');
+    // Reset form and update local state
+  } else {
+    const error = await response.json();
+    alert(`Failed to register farmer: ${error.error}`);
+  }
+} catch (error) {
+  console.error('Error:', error);
+  alert('An unexpected error occurred.');
+}
+};
 
   const handleDelete = (username: string, id: number) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete user ${username}?`);
