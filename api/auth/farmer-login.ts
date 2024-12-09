@@ -23,7 +23,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       res.status(200).json({
         message: 'Login successful',
         username: farmer.username,
-        password:farmer.password,
+        password: farmer.password,
       });
     } catch (error) {
       res.status(500).json({ error: 'Internal server error' });
