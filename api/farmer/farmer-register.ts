@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { userID, username, email, password, password, admin_id } = req.body;
+    const { userID, username, email, password, organisation, admin_id } = req.body;
 
     try {
       const db = await connectToDatabase();
@@ -26,10 +26,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       // Create a new farmer document
       const newFarmer = {
-        firstname,
-        lastname,
+        userID,
+        username,
         email,
-        farm_name,
+        organisation,
         password: hashedPassword,
         registered_by: new mongoose.Types.ObjectId(admin_id), // Reference to admin's ObjectID
         created_at: new Date(),
