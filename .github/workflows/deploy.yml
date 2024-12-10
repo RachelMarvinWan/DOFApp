@@ -22,7 +22,7 @@ jobs:
 
     # Step 3: Install dependencies and build the app
     - name: Install Dependencies and Build
-      run: |
+      run: 
         npm install
         npm run build
 
@@ -30,28 +30,20 @@ jobs:
     - name: Deploy to Server
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.SSH_HOST }}
+        host: ${{ secrets.EC2_HOST }}
         username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
-        script: |
-          # Ensure the deployment directory exists
-          mkdir -p ${{ secrets.APP_PATH }}
-
-          # Remove old files and deploy new ones
-          rm -rf ${{ secrets.APP_PATH }}/*
-          scp -r * ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }}:${{ secrets.APP_PATH }}
 
     # Step 5: Restart the server application
     - name: Restart Application
       uses: appleboy/ssh-action@v0.1.7
       with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USERNAME }}
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
-        script: |
-          # Navigate to app directory and restart app using PM2
+        script: 
           cd ${{ secrets.APP_PATH }}
           pm2 stop all || true
           pm2 start npm --name "web-app" -- start
