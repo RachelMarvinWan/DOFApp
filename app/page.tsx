@@ -39,9 +39,6 @@ export default function LoginPage() {
       else if (role === 'farmer'){
         router.push('/d/farmer/telemetry')
       }
-      
-    console.log('Login attempted with:', email, password)
-    // For now, we'll just redirect to the admin dashboard
   };
 
   return (
