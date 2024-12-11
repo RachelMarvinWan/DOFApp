@@ -56,7 +56,7 @@ export default function UsersPage() {
       const response = await fetch('api/farmer/farmer-register.ts',{
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify(newFarmerData),
+        body: JSON.stringify(newUserData),
     });
 
     if (response.ok) {
