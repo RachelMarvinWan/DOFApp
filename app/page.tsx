@@ -38,7 +38,7 @@ export default function LoginPage() {
       }
       else if (role === 'farmer'){
         router.push('/d/farmer/telemetry')
-      };
+      }
   };
 
   return (
