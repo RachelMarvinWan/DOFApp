@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       // Successful login
       res.status(200).json({
         message: 'Login successful',
-        username: farmer.username,
+        email: farmer.email,
         password: farmer.password,
       });
     } catch (error) {
