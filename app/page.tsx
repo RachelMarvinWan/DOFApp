@@ -34,12 +34,12 @@ export default function LoginPage() {
       const { role } = await response.json()
 
       if (role === 'admin') {
-        router.push('/telemetry')
+        router.push('/telemetry');
       }
       else if (role === 'farmer'){
-        router.push('/d/farmer/telemetry')
+        router.push('/d/farmer/telemetry');
       }
-  }
+  };
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
@@ -86,5 +86,5 @@ export default function LoginPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
