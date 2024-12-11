@@ -10,7 +10,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const db = await connectToDatabase();
 
       // Check if the email is already registered
-      const existingFarmer = await db.connection.db.collection('farmer').findOne({ email });
+      const existingFarmer = await db.collection('farmer').findOne({ email });
       if (existingFarmer) {
         return res.status(400).json({ error: 'Email is already registered.' });
       }
