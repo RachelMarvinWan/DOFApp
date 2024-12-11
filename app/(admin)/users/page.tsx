@@ -51,29 +51,40 @@ export default function UsersPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newUserData = { ...newUser, id: usersData.length + 1 }; // Assign a new ID
-    setUsersData(prev => [...prev, newUserData]);
-    setNewUser({ id: '', username: '', email: '', password: '', organisation: '', role: 'user', remarks: '' }); // Reset form
+    
+     // Reset form
   };
   
-  try {
-    const response = await fetch('api/farmer/farmer-register.ts',{
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(newFarmerData),
-  });
+    try {
+      const response = await fetch('api/farmer/farmer-register.ts',{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(newFarmerData),
+    });
 
-  if (response.ok) {
-    alert('Farmer registered successfully!');
-    // Reset form and update local state
-  } else {
-    const error = await response.json();
-    alert(`Failed to register farmer: ${error.error}`);
+    if (response.ok) {
+      alert('Farmer registered successfully!');
+      // Reset form and update local state
+      setUsersData(prev => [...prev, newUserData]);
+      setNewUser({ id: '', username: '', email: '', password: '', organisation: '', role: 'user', remarks: '' });
+    } else {
+      const error = await response.json();
+      alert(`Failed to register farmer: ${error.error}`);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    alert('An unexpected error occurred.');
   }
-} catch (error) {
-  console.error('Error:', error);
-  alert('An unexpected error occurred.');
-}
 };
+  export default function handler(req, res) {
+    if (req.method === 'POST') {
+      const data = req.body;
+      // Handle the POST request logic
+       res.status(200).json({ message: 'Farmer registered successfully!' });
+    } else {
+      res.status(405).json({ error: 'Method not allowed' });
+    }
+  }
 
   const handleDelete = (username: string, id: number) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete user ${username}?`);
