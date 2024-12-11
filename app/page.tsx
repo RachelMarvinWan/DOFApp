@@ -39,7 +39,7 @@ export default function LoginPage() {
       else if (role === 'farmer'){
         router.push('/d/farmer/telemetry')
       }
-  };
+  }
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
