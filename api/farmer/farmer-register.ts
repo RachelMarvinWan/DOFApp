@@ -16,7 +16,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       }
 
       // Check if the admin ID exists in the admin collection
-      const admin = await db.connection.db.collection('admin').findOne({ _id: new mongoose.Types.ObjectId(admin_id) });
+      const admin = await db.collection('admin').findOne({ _id: new mongoose.Types.ObjectId(admin_id) });
       if (!admin) {
         return res.status(404).json({ error: 'Admin not found.' });
       }
