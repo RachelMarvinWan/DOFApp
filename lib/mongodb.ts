@@ -1,15 +1,22 @@
-import mongoose from 'mongoose';
+import { MongoClient, Db } from 'mongodb';
 
-const uri = process.env.MONGODB_URI as string;
+let cachedClient: MongoClient | null = null;
+let cachedDb: Db | null = null;
 
-if (!uri) {
-  throw new Error("Please define the MONGODB_URI environment variable in your .env.local file");
-}
+export default async function connectToDatabase(): Promise<Db> {
+  if (cachedDb) return cachedDb;
 
-const connectToDatabase = async () => {
-  if (mongoose.connection.readyState === 0) {
-    await mongoose.connect(uri, { authSource: 'admin' });
+  const uri = process.env.MONGODB_URI; // Ensure this is defined in your .env.local
+  if (!uri) {
+    throw new Error('Please define the MONGODB_URI environment variable in .env.local');
   }
-};
 
-export default connectToDatabase;
+  const client = cachedClient || new MongoClient(uri);
+  if (!cachedClient) {
+    await client.connect();
+    cachedClient = client;
+  }
+
+  cachedDb = client.db(); // Adjust the database name if needed
+  return cachedDb;
+}
