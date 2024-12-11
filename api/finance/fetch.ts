@@ -8,8 +8,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = await connectToDatabase();
 
     // Fetch income and expenses for the specified farmer
-    const income = await db.connection.db.collection('income').find({ farmer_id }).toArray();
-    const expenses = await db.connection.db.collection('expenses').find({ farmer_id }).toArray();
+    const income = await db.collection('income').find({ farmer_id }).toArray();
+    const expenses = await db.collection('expenses').find({ farmer_id }).toArray();
 
     res.status(200).json({ income, expenses });
   } catch (error) {
