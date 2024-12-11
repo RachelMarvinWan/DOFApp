@@ -6,7 +6,9 @@ let cachedDb: Db | null = null;
 export default async function connectToDatabase(): Promise<Db> {
   if (cachedDb) return cachedDb;
 
-  const uri = process.env.MONGODB_URI; // Ensure this is defined in your .env.local
+  const uri = process.env.MONGODB_URI;
+  const dbName = process.env.MONGODB_DB;
+  
   if (!uri) {
     throw new Error('Please define the MONGODB_URI environment variable in .env.local');
   }
