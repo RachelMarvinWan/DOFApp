@@ -48,7 +48,7 @@ export default function UsersPage() {
     setEditUserData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newUserData = { ...newUser, id: usersData.length + 1 }; // Assign a new ID
     setUsersData(prev => [...prev, newUserData]);
@@ -140,164 +140,164 @@ export default function UsersPage() {
     return '↕';
   };
 
-  return (
-    <DashboardLayout userRole="admin">
-      <div className="space-y-2">
-        <h1 className="text-3xl font-bold">Users</h1>
-        <div className="flex flex-col md:flex-row justify-between items-start">
-          <div className="flex flex-wrap space-x-4 mb-4">
-            <select value={org} onChange={(e) => setOrg(e.target.value)} className="border rounded p-2 w-56">
-              <option value="">All Organisations</option>
-              {orgOptions.map(option => (
-                <option key={option.label} value={option.value}>{option.label}</option>
-              ))}
-            </select>
-            <select value={role} onChange={(e) => setRole(e.target.value)} className="border rounded p-2 w-56">
-              <option value="">All Roles</option>
-              {roleOptions.map(option => (
-                <option key={option.label} value={option.value}>{option.label}</option>
-              ))}
-            </select>
-          </div>
-          <input 
-            type="text" 
-            placeholder="Search Username" 
-            value={searchTerm} 
-            onChange={(e) => setSearchTerm(e.target.value)} 
-            className="border rounded p-2 w-56 mb-4 md:mb-0" 
-          />
-        </div>
-
-        {/* Existing User Table Container */}
-        <div className="rounded-md border p-6 overflow-hidden" style={{ height: '300px' }}>
-          <div className="overflow-y-auto h-full">
-            <table className="min-w-full bg-white border border-gray-300">
-              <thead className="bg-gray-200 sticky top-0 z-10">
-                <tr>
-                  <th onClick={() => requestSort('id')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'id' ? 'text-blue-500' : ''}`}>
-                    User ID <span className="text-xs text-gray-400">{getArrow('id')}</span>
-                  </th>
-                  <th onClick={() => requestSort('username')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'username' ? 'text-blue-500' : ''}`}>
-                    Username <span className="text-xs text-gray-400">{getArrow('username')}</span>
-                  </th>
-                  <th onClick={() => requestSort('email')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'email' ? 'text-blue-500' : ''}`}>
-                    Email <span className="text-xs text-gray-400">{getArrow('email')}</span>
-                  </th>
-                  <th className="text-left p-4">Password</th>
-                  <th onClick={() => requestSort('organisation')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'organisation' ? 'text-blue-500' : ''}`}>
-                    Organisation <span className="text-xs text-gray-400">{getArrow('organisation')}</span>
-                  </th>
-                  <th onClick={() => requestSort('role')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'role' ? 'text-blue-500' : ''}`}>
-                    Role <span className="text-xs text-gray-400">{getArrow('role')}</span>
-                  </th>
-                  <th className="text-left p-4">Remarks</th>
-                  <th className="text-left p-4">Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sortedData.map(user => (
-                  <tr key={user.id} className="border-b border-gray-300">
-                    <td className="text-left p-4">{user.id}</td>
-                    <td className="text-left p-4">{user.username}</td>
-                    <td className="text-left p-4">{user.email}</td>
-                    <td className="text-left p-4">
-                      {editUserId === user.id ? (
-                        <>
-                          <input 
-                            type={passwordVisible ? "text" : "password"} 
-                            name="password" 
-                            value={editUserData.password} 
-                            onChange={handleEditInputChange} 
-                            className="border rounded p-1" 
-                            placeholder="Edit Password" 
-                          />
-                          <button 
-                            type="button" 
-                            onClick={() => setPasswordVisible(!passwordVisible)} 
-                            className="ml-2 text-blue-500"
-                          >
-                            {passwordVisible ? "Hide" : "Show"}
-                          </button>
-                        </>
-                      ) : (
-                        '********' // Display asterisks for hidden password
-                      )}
-                    </td>
-                    <td className="text-left p-4">{user.organisation}</td>
-                    <td className="text-left p-4">{editUserId === user.id ? (
-                      <select name="role" value={editUserData.role} onChange={handleEditInputChange} className="border rounded p-1">
-                        <option value="admin">Admin</option>
-                        <option value="user">User</option>
-                      </select>
-                    ) : (
-                      user.role
-                    )}</td>
-                    <td className="text-left p-4">{editUserId === user.id ? (
-                      <input type="text" name="remarks" value={editUserData.remarks} onChange={handleEditInputChange} className="border rounded p-1" />
-                    ) : (
-                      user.remarks
-                    )}</td>
-                    <td className="text-left p-4">
-                      <div className="flex space-x-2">
-                        {editUserId === user.id ? (
-                          <>
-                            <button onClick={() => handleSaveEdit(user.id)} className="border rounded p-1 text-green-500">Save</button>
-                            <button onClick={() => setEditUserId(null)} className="border rounded p-1 text-red-500">Cancel</button>
-                          </>
-                        ) : (
-                          <>
-                            <button onClick={() => handleEdit(user)} className="border rounded p-1">Edit</button>
-                            <button onClick={() => handleDelete(user.username, user.id)} className="border rounded p-1 text-red-500">Delete</button>
-                          </>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
+    return (
+      <DashboardLayout userRole="admin">
+        <div className="space-y-2">
+          <h1 className="text-3xl font-bold">Users</h1>
+          <div className="flex flex-col md:flex-row justify-between items-start">
+            <div className="flex flex-wrap space-x-4 mb-4">
+              <select value={org} onChange={(e) => setOrg(e.target.value)} className="border rounded p-2 w-56">
+                <option value="">All Organisations</option>
+                {orgOptions.map(option => (
+                  <option key={option.label} value={option.value}>{option.label}</option>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        {/* New User Form Container */}
-        <div className="rounded-md border p-6 mt-4">
-          <h2 className="text-2xl font-bold mb-4">Add New User</h2>
-          <form className="space-y-4" onSubmit={handleSubmit}>
-            <div>
-              <label className="block text-sm font-medium">User ID</label>
-              <input type="text" name="id" value={newUser.id} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter User ID" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Username</label>
-              <input type="text" name="username" value={newUser.username} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Username" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Email</label>
-              <input type="email" name="email" value={newUser.email} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Email" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Password</label>
-              <input type="password" name="password" value={newUser.password} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Password" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Organisation</label>
-              <input type="text" name="organisation" value={newUser.organisation} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Organisation" />
-            </div>
-            <div>
-              <label className="block text-sm font-medium">Role</label>
-              <select name="role" value={newUser.role} onChange={handleInputChange} className="border rounded p-2 w-full">
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
+              </select>
+              <select value={role} onChange={(e) => setRole(e.target.value)} className="border rounded p-2 w-56">
+                <option value="">All Roles</option>
+                {roleOptions.map(option => (
+                  <option key={option.label} value={option.value}>{option.label}</option>
+                ))}
               </select>
             </div>
-            <div>
-              <label className="block text-sm font-medium">Remarks</label>
-              <input type="text" name="remarks" value={newUser.remarks} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Remarks" />
+            <input 
+              type="text" 
+              placeholder="Search Username" 
+              value={searchTerm} 
+              onChange={(e) => setSearchTerm(e.target.value)} 
+              className="border rounded p-2 w-56 mb-4 md:mb-0" 
+            />
+          </div>
+
+          {/* Existing User Table Container */}
+          <div className="rounded-md border p-6 overflow-hidden" style={{ height: '300px' }}>
+            <div className="overflow-y-auto h-full">
+              <table className="min-w-full bg-white border border-gray-300">
+                <thead className="bg-gray-200 sticky top-0 z-10">
+                  <tr>
+                    <th onClick={() => requestSort('id')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'id' ? 'text-blue-500' : ''}`}>
+                      User ID <span className="text-xs text-gray-400">{getArrow('id')}</span>
+                    </th>
+                    <th onClick={() => requestSort('username')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'username' ? 'text-blue-500' : ''}`}>
+                      Username <span className="text-xs text-gray-400">{getArrow('username')}</span>
+                    </th>
+                    <th onClick={() => requestSort('email')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'email' ? 'text-blue-500' : ''}`}>
+                      Email <span className="text-xs text-gray-400">{getArrow('email')}</span>
+                    </th>
+                    <th className="text-left p-4">Password</th>
+                    <th onClick={() => requestSort('organisation')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'organisation' ? 'text-blue-500' : ''}`}>
+                      Organisation <span className="text-xs text-gray-400">{getArrow('organisation')}</span>
+                    </th>
+                    <th onClick={() => requestSort('role')} className={`cursor-pointer text-left p-4 font-normal ${sortConfig.key === 'role' ? 'text-blue-500' : ''}`}>
+                      Role <span className="text-xs text-gray-400">{getArrow('role')}</span>
+                    </th>
+                    <th className="text-left p-4">Remarks</th>
+                    <th className="text-left p-4">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedData.map(user => (
+                    <tr key={user.id} className="border-b border-gray-300">
+                      <td className="text-left p-4">{user.id}</td>
+                      <td className="text-left p-4">{user.username}</td>
+                      <td className="text-left p-4">{user.email}</td>
+                      <td className="text-left p-4">
+                        {editUserId === user.id ? (
+                          <>
+                            <input 
+                              type={passwordVisible ? "text" : "password"} 
+                              name="password" 
+                              value={editUserData.password} 
+                              onChange={handleEditInputChange} 
+                              className="border rounded p-1" 
+                              placeholder="Edit Password" 
+                            />
+                            <button 
+                              type="button" 
+                              onClick={() => setPasswordVisible(!passwordVisible)} 
+                              className="ml-2 text-blue-500"
+                            >
+                              {passwordVisible ? "Hide" : "Show"}
+                            </button>
+                          </>
+                        ) : (
+                          '********' // Display asterisks for hidden password
+                        )}
+                      </td>
+                      <td className="text-left p-4">{user.organisation}</td>
+                      <td className="text-left p-4">{editUserId === user.id ? (
+                        <select name="role" value={editUserData.role} onChange={handleEditInputChange} className="border rounded p-1">
+                          <option value="admin">Admin</option>
+                          <option value="user">User</option>
+                        </select>
+                      ) : (
+                        user.role
+                      )}</td>
+                      <td className="text-left p-4">{editUserId === user.id ? (
+                        <input type="text" name="remarks" value={editUserData.remarks} onChange={handleEditInputChange} className="border rounded p-1" />
+                      ) : (
+                        user.remarks
+                      )}</td>
+                      <td className="text-left p-4">
+                        <div className="flex space-x-2">
+                          {editUserId === user.id ? (
+                            <>
+                              <button onClick={() => handleSaveEdit(user.id)} className="border rounded p-1 text-green-500">Save</button>
+                              <button onClick={() => setEditUserId(null)} className="border rounded p-1 text-red-500">Cancel</button>
+                            </>
+                          ) : (
+                            <>
+                              <button onClick={() => handleEdit(user)} className="border rounded p-1">Edit</button>
+                              <button onClick={() => handleDelete(user.username, user.id)} className="border rounded p-1 text-red-500">Delete</button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
-            <button type="submit" className="bg-blue-500 text-white rounded p-2">Add User</button>
-          </form>
+          </div>
+
+          {/* New User Form Container */}
+          <div className="rounded-md border p-6 mt-4">
+            <h2 className="text-2xl font-bold mb-4">Add New User</h2>
+            <form className="space-y-4" onSubmit={handleSubmit}>
+              <div>
+                <label className="block text-sm font-medium">User ID</label>
+                <input type="text" name="id" value={newUser.id} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter User ID" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Username</label>
+                <input type="text" name="username" value={newUser.username} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Username" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Email</label>
+                <input type="email" name="email" value={newUser.email} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Email" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Password</label>
+                <input type="password" name="password" value={newUser.password} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Password" />
+            </div>
+              <div>
+                <label className="block text-sm font-medium">Organisation</label>
+                <input type="text" name="organisation" value={newUser.organisation} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Organisation" />
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Role</label>
+                <select name="role" value={newUser.role} onChange={handleInputChange} className="border rounded p-2 w-full">
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium">Remarks</label>
+                <input type="text" name="remarks" value={newUser.remarks} onChange={handleInputChange} className="border rounded p-2 w-full" placeholder="Enter Remarks" />
+              </div>
+              <button type="submit" className="bg-blue-500 text-white rounded p-2">Add User</button>
+            </form>
+          </div>
         </div>
-      </div>
-    </DashboardLayout>
-  )
-}
+      </DashboardLayout>
+    )
+  }
