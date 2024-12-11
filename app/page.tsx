@@ -14,7 +14,7 @@ export default function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
     // TODO: Implement actual login logic here
@@ -31,7 +31,7 @@ export default function LoginPage() {
         throw new Error(error || 'Login failed')
       }
 
-      const { role } = await.response.json()
+      const { role } = await response.json()
 
       if (role === 'admin') {
         router.push('/telemetry')
