@@ -52,9 +52,6 @@ export default function UsersPage() {
     e.preventDefault();
     const newUserData = { ...newUser, id: usersData.length + 1 }; // Assign a new ID
     
-     // Reset form
-  };
-  
     try {
       const response = await fetch('api/farmer/farmer-register.ts',{
         method: 'POST',
@@ -310,5 +307,5 @@ export default function UsersPage() {
           </div>
         </div>
       </DashboardLayout>
-    )
-  }
+      )
+    }
