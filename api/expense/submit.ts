@@ -18,7 +18,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         created_at: new Date(),
       };
 
-      await db.connection.db.collection('expenses').insertOne(newExpense);
+      await db.collection('expenses').insertOne(newExpense);
 
       res.status(201).json({ message: 'Expense submitted successfully', newExpense });
     } catch (error) {
