@@ -37,7 +37,7 @@ export default function LoginPage() {
         router.push('/telemetry')
       }
       else if (role === 'farmer'){
-        router.push('/)
+        router.push('/d/farmer/telemetry')
       }
       
     console.log('Login attempted with:', email, password)
