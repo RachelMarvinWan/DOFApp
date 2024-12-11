@@ -73,15 +73,6 @@ export default function UsersPage() {
     alert('An unexpected error occurred.');
   }
 };
-  export default function handler(req, res) {
-    if (req.method === 'POST') {
-      const data = req.body;
-      // Handle the POST request logic
-       res.status(200).json({ message: 'Farmer registered successfully!' });
-    } else {
-      res.status(405).json({ error: 'Method not allowed' });
-    }
-  }
 
   const handleDelete = (username: string, id: number) => {
     const confirmDelete = window.confirm(`Are you sure you want to delete user ${username}?`);
