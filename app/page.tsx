@@ -11,11 +11,35 @@ import { Label } from '@/components/ui/label'
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState<string | null>(null)
   const router = useRouter()
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setError(null)
     // TODO: Implement actual login logic here
+    try {
+      const response = await fetch('/api/auth',{
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email, password}),
+    })
+      if (!response.ok){
+        const { error } = await response.json()
+        throw new Error(error || 'Login failed')
+      }
+
+      const { role } = await.response.json()
+
+      if (role === 'admin') {
+        router.push('/telemetry')
+      }
+      else if (role === 'farmer'){
+        router.push('/d/farmer/telemetry')
+      }
+      
     console.log('Login attempted with:', email, password)
     // For now, we'll just redirect to the admin dashboard
     router.push('/telemetry')
