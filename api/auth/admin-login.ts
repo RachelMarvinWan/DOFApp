@@ -3,29 +3,33 @@ import bcrypt from 'bcrypt';
 import connectToDatabase from '@/lib/mongodb';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { username, password } = req.body;
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-    try {
-      const db = await connectToDatabase();
-      const admin = await db.collection('admin').findOne({ email });
+  const { email, password } = req.body;
 
-      if (!admin) {
-        return res.status(401).json({ error: 'Invalid email or password' });
-      }
+  try {
+    const db = await connectToDatabase(); // Returns the MongoDB database instance
+    const adminCollection = db.collection('admin'); // Replace 'admin' with your collection name if different
 
-      const isPasswordValid = await bcrypt.compare(password, admin.password);
-      if (!isPasswordValid) {
-        return res.status(401).json({ error: 'Invalid email or password' });
-      }
-
-      // Successful login
-      res.status(200).json({ message: 'Login successful', username: admin.username });
-    } catch (error) {
-      res.status(500).json({ error: 'Internal server error' });
+    // Find admin by email
+    const admin = await adminCollection.findOne({ email });
+    if (!admin) {
+      return res.status(401).json({ error: 'Invalid email or password' });
     }
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).json({ error: `Method ${req.method} not allowed` });
+
+    // Compare passwords
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      return res.status(401).json({ error: 'Invalid email or password' });
+    }
+
+    // Successful login
+    res.status(200).json({ role: admin.role });
+  } catch (err) {
+    console.error('Database connection error:', err);
+    res.status(500).json({ error: 'Internal server error' });
   }
 }
+
