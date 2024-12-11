@@ -36,7 +36,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         created_at: new Date(),
       };
 
-      await db.connection.db.collection('farmer').insertOne(newFarmer);
+      await db.collection('farmer').insertOne(newFarmer);
 
       res.status(201).json({ message: 'Farmer registered successfully', farmer: newFarmer });
     } catch (error) {
