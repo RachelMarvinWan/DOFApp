@@ -1,44 +1,48 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+import { useState } from 'react';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setError(null)
-    // TODO: Implement actual login logic here
+    e.preventDefault();
+    setError(null);
+
     try {
-      const response = await fetch('/api/auth',{
-        method: 'POST', 
+      const response = await fetch('/api/auth', {
+        method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({email, password}),
-    })
-      if (!response.ok){
-        const { error } = await response.json()
-        throw new Error(error || 'Login failed')
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const { error } = await response.json();
+        throw new Error(error || 'Login failed');
       }
 
-      const { role } = await response.json()
+      const { role } = await response.json();
 
       if (role === 'admin') {
         router.push('/telemetry');
-      }
-      else if (role === 'farmer'){
+      } else if (role === 'farmer') {
         router.push('/d/farmer/telemetry');
       }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Login failed. Please try again.');
+    }
   };
 
   return (
@@ -47,7 +51,7 @@ export default function LoginPage() {
         <CardHeader className="text-center">
           <div className="mb-4 flex justify-center">
             <Image
-              src="@/public/logo.svg"
+              src="/logo.svg"
               alt="Ikanmeter Logo"
               width={80}
               height={80}
@@ -79,6 +83,7 @@ export default function LoginPage() {
                 required
               />
             </div>
+            {error && <p className="text-red-500 text-sm">{error}</p>}
             <Button type="submit" className="w-full">
               Login
             </Button>
