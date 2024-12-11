@@ -42,8 +42,7 @@ export default function LoginPage() {
       
     console.log('Login attempted with:', email, password)
     // For now, we'll just redirect to the admin dashboard
-    router.push('/telemetry')
-  }
+  };
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-100">
