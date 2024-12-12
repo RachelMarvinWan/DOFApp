@@ -4,6 +4,7 @@ import connectToDatabase from '@/lib/mongodb';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method !== 'POST') {
+    res.setHeader('Allow', ['POST']);
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
@@ -26,16 +27,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     }
 
     // Successful login
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Login successful',
       email: admin.email,
       password: admin.password,
     });
   } catch (error) {
-    res.status(500).json({ error: 'Internal server error' });
-  } else {
-    res.setHeader('Allow', ['POST']);
-    res.status(405).json({ error: `Method ${req.method} not allowed` });
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
+
 
