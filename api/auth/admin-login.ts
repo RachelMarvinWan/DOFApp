@@ -32,7 +32,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       password: admin.password,
     });
   } catch (error) {
-    console.error('Database connection error:', err);
+    console.error('Database connection error:', error);
     res.status(500).json({ error: 'Internal server error' });
   } else {
     res.setHeader('Allow', ['POST']);
