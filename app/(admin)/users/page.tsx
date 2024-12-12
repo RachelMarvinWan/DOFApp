@@ -53,7 +53,7 @@ export default function UsersPage() {
     const newUserData = { ...newUser, id: usersData.length + 1 }; // Assign a new ID
     
     try {
-      const response = await fetch('api/farmer/farmer-register.ts',{
+      const response = await fetch('api/farmer/farmer-register',{
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(newUserData),
