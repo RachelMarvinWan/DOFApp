@@ -13,12 +13,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const db = await connectToDatabase();
 
     // First, check in the Admin collection
-    let user = await db.collection('Admin').findOne({ email });
+    let user = await db.collection('admin').findOne({ email });
     let role = 'admin';
 
     // If not found in Admin, check in Farmer collection
     if (!user) {
-      user = await db.collection('Farmer').findOne({ email });
+      user = await db.collection('farmer').findOne({ email });
       role = 'farmer';
     }
 
