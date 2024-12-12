@@ -11,7 +11,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
   try {
     const db = await connectToDatabase(); // Returns the MongoDB database instance
-    const adminCollection = db.collection('admin'); // Replace 'admin' with your collection name if different
+    const adminCollection = db.collection('admin');
 
     // Find admin by email
     const admin = await adminCollection.findOne({ email });
@@ -21,15 +21,23 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     // Compare passwords
     const isMatch = await bcrypt.compare(password, admin.password);
-    if (!isMatch) {
+    if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid email or password' });
     }
 
     // Successful login
-    res.status(200).json({ role: admin.role });
-  } catch (err) {
+    res.status(200).json({
+      message: 'Login successful',
+      email: admin.email,
+      password: admin.password,
+    });
+  } catch (error) {
     console.error('Database connection error:', err);
     res.status(500).json({ error: 'Internal server error' });
+  } else {
+    res.setHeader('Allow', ['POST']);
+    res.status(405).json({ error: `Method ${req.method} not allowed` });
   }
+  
 }
 
