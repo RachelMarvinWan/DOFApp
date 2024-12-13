@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import dbConnect from 'DOFApp/lib/mongodb';
-import farmer from 'DOFApp/models/farmer';
-import admin from 'DOFApp/models/admin';
+import dbConnect from 'lib/mongodb';
+import farmer from 'models/farmer';
+import admin from 'models/admin';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     await dbConnect();
