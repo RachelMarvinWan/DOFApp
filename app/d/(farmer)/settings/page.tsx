@@ -1,10 +1,9 @@
 'use client'
 
 import { useState } from 'react'
-import { DashboardLayout } from 'components/layout/v-dashboard-layout'
-import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
-import { Label } from 'components/ui/label'
-import { Button } from 'components/ui/button'
+import { DashboardLayout } from '@/components/layout/v-dashboard-layout'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Label } from '@/components/ui/label'
 
 export default function ViewerSettingsPage() {
   const [email] = useState('sbd@mail.com')
