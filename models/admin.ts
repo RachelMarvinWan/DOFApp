@@ -3,5 +3,9 @@ import mongoose, { Schema, model, models } from 'mongoose';
 const adminschema = new Schema ({
   email: { type: String, required: true, unique: true },
   password: {type: String, required: true },
-  name: 
+  username: {type: String, required: true }, 
+  role: {type: String, required: true },
 });
+
+const admin = models. admin || model('admin', adminschema); 
+export default admin; 
