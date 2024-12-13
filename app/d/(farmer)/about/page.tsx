@@ -1,4 +1,4 @@
-import { DashboardLayout } from '@/components/layout/v-dashboard-layout'
+import { DashboardLayout } from 'components/layout/v-dashboard-layout'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 
 export default function ViewerAboutPage() {
