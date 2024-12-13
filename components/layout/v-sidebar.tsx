@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Activity, Clock, CreditCard, DollarSign, Info, LogOut, Menu, Settings, Users, X } from 'lucide-react'
 
-import { Button } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Button } from 'components/ui/button'
+import { ScrollArea } from 'components/ui/scroll-area'
+import { Sheet, SheetContent, SheetTrigger } from 'components/ui/sheet'
 
 interface SidebarProps {
   userRole?: 'admin' | 'viewer'
