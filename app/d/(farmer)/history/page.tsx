@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { DashboardLayout } from '@/components/layout/v-dashboard-layout'
+import { DashboardLayout } from 'components/layout/v-dashboard-layout'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
 import { format, parseISO, eachDayOfInterval, startOfDay, endOfDay } from 'date-fns'
 
