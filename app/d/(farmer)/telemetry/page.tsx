@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { DashboardLayout } from 'components/layout/v-dashboard-layout'
-import { DataCard } from 'components/ui/data-card'
+import { DashboardLayout } from '@/components/layout/v-dashboard-layout'
+import { DataCard } from '@/components/ui/data-card'
 
 const telemetryData = [
   { farm: 'Farm 1', area: 'Area 1', logger: 'Logger 1', lastUpdate: '11/10/2024, 12:47 PM', temperature: '16°C', dissolvedOxygenPercentage: '80%', dissolvedOxygenVolume: '7.1 mg/L', pHValue: '6.5', salinity: '120 ppm' },
