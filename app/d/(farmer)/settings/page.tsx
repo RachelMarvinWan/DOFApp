@@ -1,17 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { DashboardLayout } from '@/components/layout/v-dashboard-layout'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Button } from '@/components/ui/button'
+import { DashboardLayout } from 'components/layout/v-dashboard-layout'
+import { Card, CardContent, CardHeader, CardTitle } from 'components/ui/card'
+import { Label } from 'components/ui/label'
+import { Button } from 'components/ui/button'
 
 export default function ViewerSettingsPage() {
-  const [email, setEmail] = useState('sbd@mail.com')
-  const [username, setUsername] = useState('SBD Viewer')
-  const [password, setPassword] = useState('***********')
-  const [role, setRole] = useState('Viewer')
+  const [email] = useState('sbd@mail.com')
+  const [username] = useState('SBD Viewer')
+  const [password] = useState('***********')
+  const [role] = useState('Viewer')
 
   return (
     <DashboardLayout userRole="viewer">
@@ -48,12 +47,6 @@ export default function ViewerSettingsPage() {
           <CardHeader>
             <CardTitle>Language</CardTitle>
           </CardHeader>
-          <CardContent>
-            <div className="flex space-x-2">
-              <Button variant="secondary">English</Button>
-              <Button variant="outline">Bahasa Malaysia</Button>
-            </div>
-          </CardContent>
         </Card>
       </div>
     </DashboardLayout>
