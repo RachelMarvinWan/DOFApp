@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { DashboardLayout } from 'components/layout/dashboard-layout'
+import { DashboardLayout } from '@/components/layout/dashboard-layout'
 
 const initialUsersData = [
   { id: 1, username: 'Ahmad', email: 'ahmad@mail.com', password: 'password1', organisation: 'Farm 1', role: 'admin', remarks: 'N/A' },
