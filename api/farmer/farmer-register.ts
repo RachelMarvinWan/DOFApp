@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import connectToDatabase from '@/lib/mongodb';
-import mongoose from 'mongoose';
+import dbConnect from 'lib/mongodb';
+import Farmer from 'models/farmer';
+import Admin from 'models/admin';
 import bcrypt from 'bcrypt';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
@@ -8,16 +9,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { userID, username, email, password, organisation, admin_id } = req.body;
 
     try {
-      const db = await connectToDatabase();
+      // Connect to MongoDB
+      await dbConnect();
 
       // Check if the email is already registered
-      const existingFarmer = await db.collection('farmer').findOne({ email });
+      const existingFarmer = await Farmer.findOne({ email });
       if (existingFarmer) {
         return res.status(400).json({ error: 'Email is already registered.' });
       }
 
-      // Check if the admin ID exists in the admin collection
-      const admin = await db.collection('admin').findOne({ _id: new mongoose.Types.ObjectId(admin_id) });
+      // Check if the admin ID exists
+      const admin = await Admin.findById(admin_id);
       if (!admin) {
         return res.status(404).json({ error: 'Admin not found.' });
       }
@@ -26,17 +28,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Create a new farmer document
-      const newFarmer = {
+      const newFarmer = await Farmer.create({
         userID,
         username,
         email,
-        organisation,
         password: hashedPassword,
-        registered_by: new mongoose.Types.ObjectId(admin_id), // Reference to admin's ObjectID
+        organisation,
+        registered_by: admin._id, // Reference to admin's ObjectID
         created_at: new Date(),
-      };
-
-      await db.collection('farmer').insertOne(newFarmer);
+      });
 
       res.status(201).json({ message: 'Farmer registered successfully', farmer: newFarmer });
     } catch (error) {
