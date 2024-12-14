@@ -22,6 +22,10 @@
     "paths": {
       "lib/*": ["lib/*"],
       "models/*": ["models/*"],
+      "components/*": ["components/*"],
+      "styles/*": ["styles/*"],
+      "utils/*": ["utils/*"],
+      "hooks/*": ["hooks/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
