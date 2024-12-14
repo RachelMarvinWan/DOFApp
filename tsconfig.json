@@ -23,6 +23,8 @@
       "lib/*": ["lib/*"],
       "models/*": ["models/*"],
       "components/*": ["components/*"],
+      "components/ui/*": ["components/ui/*"],
+      "components/layout/*": ["components/layout/*"],
       "styles/*": ["styles/*"],
       "utils/*": ["utils/*"],
       "hooks/*": ["hooks/*"]
