@@ -1,5 +1,5 @@
-import { Pencil, Trash } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { Pencil, Trash } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 interface ActionButtonsProps {
   onEdit: () => void
